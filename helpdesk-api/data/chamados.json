@@ -1,0 +1,5 @@
+[
+ {"id":1,"titulo":"Impressora indisponível","descricao":"Sem conexão","prioridade":"alta","status":"aberto","usuarioId":1,"custo":100},
+ {"id":2,"titulo":"Acesso ao sistema","descricao":"Senha expirada","prioridade":"baixa","status":"resolvido","usuarioId":2,"custo":50},
+ {"id":3,"titulo":"Erro de relatório","descricao":"Total divergente","prioridade":"media","status":"em_andamento","usuarioId":1,"custo":80}
+]
