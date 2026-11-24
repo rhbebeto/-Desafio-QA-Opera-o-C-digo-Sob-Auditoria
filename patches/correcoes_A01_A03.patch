@@ -1,0 +1,20 @@
+--- a/src/server.js
++++ b/src/server.js
+@@ -9,7 +9,7 @@
+ function write(name, value) { fs.writeFileSync(file(name), JSON.stringify(value, null, 2)); }
+ function send(res, code, body) { res.writeHead(code, {'content-type':'application/json; charset=utf-8', 'access-control-allow-origin':'*'}); res.end(JSON.stringify(body)); }
+ function body(req) { return new Promise((resolve,reject)=>{let raw='';req.on('data',c=>raw+=c);req.on('end',()=>{try{resolve(raw ? JSON.parse(raw):{});}catch(e){reject(e);}});req.on('error',reject);}); }
+-function nextId(rows) { return rows.length + 1; }
++function nextId(rows) { return rows.reduce((max, item) => Math.max(max, Number(item.id) || 0), 0) + 1; }
+ function allowedStatus(s) { return ['aberto','em_andamento','resolvido'].includes(s); }
+ function summary(rows) {
+   const total=rows.length;
+@@ -24,7 +24,7 @@
+   try {
+     if(method==='OPTIONS'){res.writeHead(204,{'access-control-allow-origin':'*','access-control-allow-methods':'GET,POST,PATCH,DELETE,OPTIONS','access-control-allow-headers':'content-type'});return res.end();}
+     if(method==='GET' && route==='/'){return send(res,200,{sistema:'HelpDesk API',versao:'1.0',rotas:['GET /chamados','GET /chamados/:id','POST /chamados','PATCH /chamados/:id','DELETE /chamados/:id','GET /relatorios/resumo','GET /usuarios']});}
+-    if(method==='GET' && route==='/usuarios'){return send(res,200,read('usuarios'));}
++    if(method==='GET' && route==='/usuarios'){return send(res,200,read('usuarios').map(({id,nome,email,perfil})=>({id,nome,email,perfil})));}
+     if(method==='GET' && route==='/chamados'){
+       let rows=read('chamados'); if(url.searchParams.get('status')) rows=rows.filter(x=>x.status===url.searchParams.get('status'));
+       if(url.searchParams.get('prioridade')) rows=rows.filter(x=>x.prioridade===url.searchParams.get('prioridade'));
