@@ -25,6 +25,9 @@ npm test
 Para executar a suíte de auditoria ou a suíte de regressão das correções individualmente:
 
 ```bash
-node --test tests/auditoria.test.js
+node --test tests/basico.test.js
 node --test tests/regressao_correcoes.test.js
+node --test tests/auditoria.test.js
 ```
+
+> **Nota sobre o resultado esperado:** como o escopo da atividade exige a correção demonstrativa de apenas **2 problemas** (`A01` e `A03`), as suítes `tests/basico.test.js` (**1/1**) e `tests/regressao_correcoes.test.js` (**3/3**) passam integralmente, enquanto `tests/auditoria.test.js` aprova **7/12** (`CT-01` a `CT-07`) e mantém **5 falhas esperadas** (`CT-08` a `CT-12`) que evidenciam os achados remanescentes mapeados no plano de melhoria.
